@@ -16,7 +16,7 @@ def train(ticker="MSFT"):
     '''
     downloads historical stock data with yfinance, creates a new Prophet model, fits the model to the stock data,
     and then serializes and saves the model as a Joblib file
-    :param ticker:
+    :param ticker: Company's ticker of stocks you want to predict. By default Microsoft Company
     :return: None
     '''
     data = yf.download(ticker, START_PREDICTION_DATE, TODAY.strftime("%Y-%m-%d"))
