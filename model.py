@@ -1,12 +1,14 @@
 import datetime
 from pathlib import Path
-
+import os
 import joblib
 import pandas as pd
 import yfinance as yf
 from fbprophet import Prophet
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent
+PREDICTIONS_DIR = os.path.join(BASE_DIR, 'predictions')
+MODELS_DIR = os.path.join(BASE_DIR, 'ml_models')
 TODAY = datetime.date.today()
 START_PREDICTION_DATE = "2020-01-01"
 STRF_FORMAT = "%m/%d/%Y"
@@ -31,7 +33,7 @@ def train(ticker="MSFT"):
 
     model = Prophet()
     model.fit(df_forecast)
-    joblib.dump(model, Path(BASE_DIR).joinpath(f"{ticker}.joblib"))
+    joblib.dump(model, Path(MODELS_DIR).joinpath(f"{ticker}.joblib"))
 
 
 def predict(ticker="MSFT", days=7):
@@ -42,7 +44,7 @@ def predict(ticker="MSFT", days=7):
     :param days: period of prediction in days. By default 7 days
     :return:
     '''
-    model_file = Path(BASE_DIR).joinpath(f"{ticker}.joblib")
+    model_file = Path(MODELS_DIR).joinpath(f"{ticker}.joblib")
     if not model_file.exists():
         return False
 
@@ -54,7 +56,7 @@ def predict(ticker="MSFT", days=7):
 
     forecast = model.predict(df)
 
-    model.plot(forecast).savefig(f"{ticker}_plot.png")
+    model.plot(forecast).savefig(os.path.join(f"{ticker}_plot.png"))
     model.plot_components(forecast).savefig(f"{ticker}_plot_components.png")
 
     return forecast.tail(days).to_dict("records")

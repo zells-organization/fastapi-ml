@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from model import convert, predict
-from models import StockIn, StockOut
+from fastapi_models import StockIn, StockOut
 
 app = FastAPI()
 
