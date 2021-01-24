@@ -38,8 +38,8 @@ def predict(ticker="MSFT", days=7):
     '''
     loads and deserializes the saved model, generates a new forecast, creates images of the forecast plot and
     forecast components, and returns the days included in the forecast as a list of dicts.
-    :param ticker:
-    :param days:
+    :param ticker: Company's ticker of stocks you want to predict. By default Microsoft Company
+    :param days: period of prediction in days. By default 7 days
     :return:
     '''
     model_file = Path(BASE_DIR).joinpath(f"{ticker}.joblib")
